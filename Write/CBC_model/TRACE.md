@@ -113,10 +113,10 @@ Conservation des NE = viabilité de la pop., influencée par les landscape featu
 Remarque : d'après Karp et al. (2018) => différences entre
 
 - landscape composition = proportional area of different land use types (various snh)
-
 - landscape configuration = spatial arrangement of surrounding land use types
-
 - landscape diversity = nb d'habitats différents dans le surrounding landscape
+
+Ladybirds are expected to be generalist aphid predators within crop fields and are abundant when fields are surrounded by non-crop lands (Elliott et al. 1999, Gardiner et al., 2009, Taki et al., 2013) => optimal scale 1000m radius 
 
 ### Articles contre lesquels se positionner
 
@@ -147,3 +147,15 @@ Question : comment distinguer les effets de la structure du paysage des effets d
 2/ Resource availability : importance relative des deux types de ressource, est-ce que l'on peut mesurer l'intensité de la relation entre les deux ? Minimum pour que la pop de préds subsiste ?
 
 3/ Notre modèle permet de mesurer la dynamique au cours de la saison des abondances de pests / ennemies, ce que peut d'études de terrain ont fait (cf. Karp et al. 2018) => se référer à Chaplin-Kramer et al. (2013) et Plecas et al. (2014)
+
+
+
+Papiers expérimentaux:
+
+Pfister et al. (2017)
+
+Yang et al. (2018)
+
+Zhao et al. (2013)
+
+Martin et al. (2016)
