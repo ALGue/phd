@@ -159,3 +159,17 @@ Yang et al. (2018)
 Zhao et al. (2013)
 
 Martin et al. (2016)
+
+Woltz et al (2012)
+
+## ODD
+
+Thiele et al. (2014)
+
+Grimm et al. (2010)
+
+Grimm et al. (2014)
+
+The model description following the ODD protocol (Grimm et al., 2010) is adopted from Railsback et Grimm (2012). The source code of the NetLogo model is included in the Supplementary Material.
+
+The model represents, in a simplified way, the meta-population dynamics of a natural enemy of crop pests, and how it affects the delivery of a biological control service, considered like a regulation service as far as a measure of crop loss. We model an agricultural landscape, as a matrix of crop and semi-natural patches. Natural enemies are able to forage, in order to find food (pests) and reproduce in crops during the season, while they flee to semi-natural patches for overwintering. The model provides a laboratory for developing a theory for the landscape management of natural enemies populations, regulation of pests and delivery of biological control service. 
