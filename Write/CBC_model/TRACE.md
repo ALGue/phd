@@ -234,16 +234,67 @@ At date = 180 days begins the overwintering period. The time frame for this peri
 
 **Design concepts** - 
 
-- Emergence: the results we are interested in are the patterns of pest - natural enemies dynamics, regulation of crop patches, and crop losses due to pests, which describe the biological control service. They all emerge from the interaction between landscape complexity, pest outbreak pattern, and the landscape-NE behaviour interaction. Other parameters such as the initial position of NE populations, and external morality rates can also affect the model outputs, as a consequence we analyzed the sensitivity of the model for them.
+1. Emergence: the results we are interested in are the patterns of pest - natural enemies dynamics, regulation of crop patches, and crop losses due to pests, which describe the biological control service. They all emerge from the interaction between landscape complexity, pest outbreak pattern, and the landscape-NE behaviour interaction. Other parameters such as the initial position of NE populations, and external morality rates can also affect the model outputs, as a consequence we analyzed the sensitivity of the model for them.
+2. Biological assumptions
+
 - Meta-population of natural enemies: a big assumption is the fact that agents do not represent individual NE but populations of NE, that move together
 - Pest outbreak patterns: we do not explicitly model the dynamics of pests, and use simple assumptions to describe the pattern. The simplest pattern uses an infection-rate = a given proportion of crops free of pests is infected every day, and they are randomly chosen in terms of location
 - The dynamics of natural enemies strongly depends on infected crops, because they can only reproduce on them.
 - We consider that a NE population can always cure an infected crop, provided that they can stay a sufficient period of time on it.
+
+3. Observations
+
+we measure the dynamics of infected crops and of the population of NE, measuring abundances. We also measure the foraging distance of NE in order to relate it to the regulation of pests and the crop loss. 
+
+4. Hypothesis
+
 - Biological control service can also be measured as a "crop loss", and it only depends on the date of arrival of the pests on the crop patch, in order to take into account the phenology of the crops, and of the time frame between this date and the date of arrival of the NE
-- Observations: we measure the dynamics of infected crops and of the population of NE, measuring abundances. We also measure the foraging distance of NE in order to relate it to the regulation of pests and the crop loss. 
 
 **Initialisation** - Simulations start in March (month 1). Every landscape begins with ten populations of NE, which start foraging on the same date.
 
 **Input data** - The model does not include any external input.
 
-**Submodels** -
+**Submodels** - Submodels are listed in Table 1
+
+Pattern of pest outbreak
+
+Movement
+
+Mortality
+
+**Parameters** - Parameters are listed in Table 2
+
+| Module    | Parameter                    | Values | Description |
+| --------- | ---------------------------- | ------ | ----------- |
+| Landscape | Proportion                   |        |             |
+| Landscape | Agregation                   |        |             |
+| Landscape | Accuracy                     |        |             |
+| Landscape | Max-permutations             |        |             |
+| Time      | Nb-Years                     |        |             |
+| Time      | Length-season                |        |             |
+| Time      | Date-to-flee                 |        |             |
+| Pest      | latent-period-duration       |        |             |
+| Pest      | Infection-rate               |        |             |
+| NE        | Nb-init                      |        |             |
+| NE        | External-mortality           |        |             |
+| NE        | foraging-frequency           |        |             |
+| NE        | ability-to-detect            |        |             |
+| NE        | mortality-pattern            |        |             |
+| NE        | duration-before-eggs         |        |             |
+| NE        | duration-juvenile-occupation |        |             |
+| Service   | gamma-without-CBC            |        |             |
+| Service   | gamma-with-CBC               |        |             |
+| Service   | gamma-regulation-rate        |        |             |
+| Outputs   | folder-path                  |        |             |
+|           |                              |        |             |
+
+
+
+
+
+
+
+Rajouter les catégories :
+
+- Modèle biologique, pour décrire les assumptions tirées du modèle coccinelle aphids
+- Hypthèses
