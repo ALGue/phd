@@ -174,41 +174,76 @@ The model description following the ODD protocol (Grimm et al., 2010) is adopted
 
 The model represents, in a simplified way, the meta-population dynamics of a natural enemy of crop pests, and how it affects the delivery of a biological control service, considered like a regulation service as far as a measure of crop loss. We model an agricultural landscape, as a matrix of crop and semi-natural patches. Natural enemies are able to forage, in order to find food (pests) and reproduce in crops during the season, while they flee to semi-natural patches for overwintering. The model provides a laboratory for developing a theory for the landscape management of natural enemies populations, regulation of pests and delivery of biological control service. We consider that farmers are able to modify the landscape complexity of agricultural landscapes, by varying composition or configuration of patches, and they have to address various patterns of pest outbreaks. Given the lifecycle of natural enemies, different submodels of foraging ability and capacity to survive in semi-natural habitats or in hostile matrix can be implemented. The interaction between landscape management and the characteristics of the lifecycle affects the dynamics of natural enemies and the regulation of pests, resulting in a biological control service and this output is compared to patterns observed in the reality for the corresponding lansdcape complexity, pest outbreak patterns and natural enemies characteristics.
 
-**Purpose** - The purpose to the model is to explore how landscape complexity and pest outbreak patterns could influence the meta-population dynamic of natural enemies and drive the temporal and spatial patterns of the biological control service that they deliver.
+**Purpose** - The purpose to the model is to explore how both landscape complexity and pest outbreak patterns could conjointly influence the meta-population dynamic of natural enemies, and drive the temporal and spatial patterns of the biological control service that they deliver.
 
-**Entities, state variables and scales** - The entities of the model are patches and populations of natural enemies. 
+**Entities, state variables and scales** - 
 
-Patches can be crops or semi-natural habitats. Crops can be attacked during the season by pests, and as a consequence are modeled with a state variable representing a SIR-like status: 
+<u>*Entities:*</u>
 
-- free of pests
-- with pests and without natural enemies
-- with pests and with natural enemies (adults)
-- with pests and with natural enemies (juveniles)
+We distinguish two basic entities:
 
-Two variables attached to crops allow us to compute the service of biological control: date of pest infestation, and date of natural enemies arrival on infected crops. 
+- Patches, which are the square units of the cell grid, and can be divided into two sub-types, corresponding to a different subset of attributes and properties:
+  - crops
+  - semi-natural habitats
+- Natural enemies populations (NEs) which are agents / individuals. We model populations (a certain number of individuals) of adult natural enemies as one agent.  All the individuals of the population have the same features, which are the attributes of the agent.
 
-We also attach to crops a variable holding the distance to the closest semi-natural patch, as a possible explanatory variable of the relationship between the landscape complexity and the biological control service. 
+And two spatial collective entities:
 
-Semi-natural patches are grouped by clusters when they share a edge, and each cluster owns an id. Natural enemies overwinter in semi-natural patches, depending on the carrying capacity of the cluster.
+- Clusters: clusters are groups of semi-natural patches which share at least one edge.
+- Landscape: the whole collection of patches, crops as semi-natural, on the cell grid
+
+<u>*About the state variables / attributes:*</u>
+
+All the patches have spatial coordinates on the grid cell. 
+
+Crop patches also hold three variables relative to the specific location with respect to semi-natural patches:
+
+- the spatial coordinates of the closest semi-natural patch
+- the distance to the closest semi-natural patch
+
+Semi-natural patches are grouped by clusters when they share a edge, and each cluster owns an id. 
+
+It is important to consider clusters as entities, because we can give them specific carrying capacities which set how many NEs can overwinter in the clusters of semi-natural patches.
 
 Grouping all patches, crops and semi-natural, we get a landscape which is described with two variables:
 
-- proportion of semi-natural patches
-- agregation level of semi-natural patches
+- proportion of semi-natural patches: percentage of semi-natural patches according to the total number of patches on the grid
+- agregation level of semi-natural patches: with respect to one semi-natural patch, the number of neighbours (patches which share at least one edge) of the same type 
 
-The two variables are two aspects of landscape complexity and connectivity, though landscape complexity is generally understood in the landscape ecology literature only as the proportion of semi-natural elements. While they are different aspects, the two variables are also correlated, especially when the proportion of semi-natural patches is high, because it constrained the agregation. Indeed, agregation is defined as the number of neighbours patches of the same type for every patch of the landscape.
+We use proportion of semi-natural patches as a proxy of landscape complexity, as the literature does. We also uderstand agregation level as a proxy of landscape connectivity. However, these two aspects are correlated, because in our model the proportion of semi-natural patches on the landscape grid constrains the agregation level.
 
-Natural enemies and pests are modeled from model-species, ladybirds and aphids. Pests are not modeled as entities, however we model a pattern of pest outbreak which directly affect crop patches. For natural enemies, entities do not represent individuals but rather populations of individuals of the same specie, and as a consequence the total of the agents that we modeled form a meta-population. In the reality, even if natural enemies forage according to individual behaviour, they often detect the same clues in the landscape, and from a macro-scale perspective, they forage in the same direction, allowing us to represent them as a group of individuals or a population. We attached to natural enemies agents several state variables:
+Crop patches have also specific attributes according to the model dynamic. At the beginning of a simulation, crop patches are free of pests, and can be attacked, to be finally "cured" by natural enemies. As a consequence, we decided to hold to crops an attribute which model the status of the patch, in the same way that a SIR-model could do, and therefore this variable can take the four following and successive values:
 
-- date they begin to forage
-- foraging speed
-- ability to detect crops with pests
+- free of pests
+- with pests and without natural enemies
+- with pests and with natural enemies feeding on it before laying eggs
+- with pests, no adult natural enemies but regulated by juveniles
 
-and explanatory variable such as the number of foraging movements that they do in each type of environment (crops or semi-natural).
+Crops with pests experience a crop loss, which is regulated by natural enemies. In order to compute this crop loss, we need two additional variables, attached to these crops, which are:
 
-The time step of the model is one day, and we consider each year a season of six months, during which occurs the pest and natural enemies dynamics, followed by an overwintering period of six months to complete the year. Each simulation of the model run several years, in order to reach an equilibrium.
+- date of pest infestation of the considered crop patch
+- date of arrival of natural enemies on crops with pests
 
-**Process overview and scheduling** - Each simulation begins by the initialization of the landscape and of the natural enemies populations, located in semi-natural patches. Then, the simulation runs several years, divided into the three periods of foraging, back to semi-natural patches and overwintering. 
+We have chosen these variables as drivers of crop loss, according to various assumptions (see biological assumptions) that allow us to define and use a crop loss model.
+
+About the pest-NEs complex:
+
+Pests are not modeled as entities, rather we used a simple pattern for pest outbreak that affects crop patches and these attributes (see above the SIR-like model for crop patches).
+
+Agents that represent populations of individual NEs are described with several state variables:
+
+- the date they begin to forage: NEs start to forage, from the semi-natural patches where they were overwintering, in order to find crops with pests
+- a foraging speed: NEs jump from one patch to another, and the foraging speed is the number of jumps that NEs are able to do during one tick
+- an ability to detect crops with pests: when NEs jump, they need to choose one direction. As they search for crops with pests, if they detect one, they are going to take its direction in priority, otherwise they jump randomly. Their ability is the radius in which they are able to detect crops with pests.
+
+Finally, we also attach some output variables to NEs, in order to measure the total number of foraging movements that they do in each type of environment (crops or semi-natural).
+
+The length of one simulation could be several years, in order to finally find an equilibrium and the time step of the model is one day. Each year is divided into 3 periods:
+
+- overwintering: it spends 6 months but we model in only one tick because we consider the NEs are overwintering, not moving nor interacting with other entities.
+- foraging period: it spends 6 months, 150 days are for foraging in order to find crops with pests, 30 days are to find a semi-natural patch where overintering.
+
+**Process overview and scheduling** - Each simulation starts with the initialization of the landscape and of the natural enemies populations, located in semi-natural patches. Then, the simulation runs several years, divided into the three periods of foraging, back to semi-natural patches and overwintering. 
 
 For the periods of foraging, the following list of processes is executed in the given order once per time step:
 
@@ -241,6 +276,8 @@ At date = 180 days begins the overwintering period. The time frame for this peri
 - Pest outbreak patterns: we do not explicitly model the dynamics of pests, and use simple assumptions to describe the pattern. The simplest pattern uses an infection-rate = a given proportion of crops free of pests is infected every day, and they are randomly chosen in terms of location
 - The dynamics of natural enemies strongly depends on infected crops, because they can only reproduce on them.
 - We consider that a NE population can always cure an infected crop, provided that they can stay a sufficient period of time on it.
+- A crop patch which has been cured cannot be infected again by pests.
+- service: Biological control service can also be measured as a "crop loss", and it only depends on the date of arrival of the pests on the crop patch, in order to take into account the phenology of the crops, and of the time frame between this date and the date of arrival of the NE
 
 3. Observations
 
@@ -248,45 +285,104 @@ we measure the dynamics of infected crops and of the population of NE, measuring
 
 4. Hypothesis
 
-- Biological control service can also be measured as a "crop loss", and it only depends on the date of arrival of the pests on the crop patch, in order to take into account the phenology of the crops, and of the time frame between this date and the date of arrival of the NE
+Our hypothesis are:
 
-**Initialisation** - Simulations start in March (month 1). Every landscape begins with ten populations of NE, which start foraging on the same date.
+- We should find a negative relationship between landscape complexity (proportion of semi-natural patches in the landscape) and the average individual crop loss (for one crop patch). Indeed, increasing the proportion of semi-natural patches, we increase the probability to start 1 year with more NEs (increasing the total carrying capacity during overwintering) and the probability to decrease the initial distance between NEs and crops with pests.
+- Regulation of crops, id est the total number of crop patches attacked by pests and then visited by NEs is not directly correlated to the average individual crop loss. Indeed, crop loss is a more complex function which also depends on the timing of arrival of the NEs on infected crops.
+
+**Initialisation** - At t = 0, a landscape grid cell is comuted, according to these 2 inputs:
+
+- proportion of semi-natural patches
+- and agregation levels 
+
+A certain number of NE's are randomly located on semi-natural patches (with a process to avoid that several NE's may be located on the same patch).
+
+Simulation starts:
+
+- At year = 0
+- At day = 0 (day variable is re-initialized every year)
+- day 0 should be considered as the 1st of March, id est the first day of the foraging period for NE's, or the last day of overwintering period.
 
 **Input data** - The model does not include any external input.
 
 **Submodels** - Submodels are listed in Table 1
 
-Pattern of pest outbreak
+*Pattern of pest outbreak:*
 
-Movement
+For the moment we use a very simple pattern for pest dynamic. 
 
-Mortality
+The observer sets for the simulation an infection rate. Infection rate is the percentage of crops, among the crops without pests on them, which is attacked by pests, every tick. As a consequence, every tick and for a given infection rate, the same number of crops is infected, until the stock of crops without pests is insuficient. In this situation, all the residual crops without pests are infected. 
+
+One consequence is thet for this pattern, the infection rate is not dependant of the number of crops already infected (no density-dependence).
+
+Also, the spatial location of the crops to be infected is random. We do not consider here that the proximity of crops with pests influence the probability for a neighbour to be infected.
+
+The two last assumptions can be understood as a long-distance infestation phenomenon: pests disperse from a very large distance, exceeding the landscape scale, for instance thanks to the wind, and arrive randomly on cells of the grid.
+
+We consider only one infection per year.
+
+We do not explicitly model pests as entities. Rather, we update the attribute of crops, as a SIR model could do.
+
+*Foraging behaviour:*
+
+We consider two distinct temporal patterns:
+
+- to find food (crops with pests), id est between t = 0 and t = 150
+- to find refugees (semi-natural patches), id est between t = 150 and t = 180
+
+The foraging speed is the same, whatever the temporal pattern.
+
+During foraging for food, NEs have a certain ability to detect crops with pests. We model it with various radius-lenght in which NEs are able to detect these crops.
+
+During foraging for refugees, we consider that NEs are able to detect the closest semi-natural cluster, whatever the distance from this cluster.
+
+*Mortality pattern:*
+
+We consider crops as a hostile matrix, where NEs experience mortality when foraging. Each foraging movement occurs a certain probability to die.
+
+This mortality is not varying, and it does not depend on the total number of previous foraging movements of the agent (distance-dependence), nor of the total number of NEs in the landscape (density-dependence).
+
+On the contrary, we consider that NEs can not die when they forage in semi-natural patches or are reproducing on crops.
+
+*Crop loss computation:*
+
+We model the delivered service of biological control under the form of a crop loss, for each crop patch infected with pests. 
+
+Crop loss depends on:
+
+- plant phenology: the earlier is the attack of crops by pests, the higher is the crop loss. As a consequence, the date of arrival of pests on crops, or infection-date, is a crucial parameter that we need to pick during the simulation.
+- regulation rate: the regulation activity of pests by NEs modulates the crop loss value. We consider that the ability of NEs in regulating pests depends on the time that pests had to develop, before the arrival of NEs. As a consequence, we pick the time between pest and NEs arrival, in order to compute the regulation rate on a crop patch.
+
+(equations)
+
+$(0.6 * exp(- gamma.without.CBC * (inf.date / length.season)) + 0.05) * 100$
+
+
 
 **Parameters** - Parameters are listed in Table 2
 
-| Module    | Parameter                    | Values | Description |
-| --------- | ---------------------------- | ------ | ----------- |
-| Landscape | Proportion                   |        |             |
-| Landscape | Agregation                   |        |             |
-| Landscape | Accuracy                     |        |             |
-| Landscape | Max-permutations             |        |             |
-| Time      | Nb-Years                     |        |             |
-| Time      | Length-season                |        |             |
-| Time      | Date-to-flee                 |        |             |
-| Pest      | latent-period-duration       |        |             |
-| Pest      | Infection-rate               |        |             |
-| NE        | Nb-init                      |        |             |
-| NE        | External-mortality           |        |             |
-| NE        | foraging-frequency           |        |             |
-| NE        | ability-to-detect            |        |             |
-| NE        | mortality-pattern            |        |             |
-| NE        | duration-before-eggs         |        |             |
-| NE        | duration-juvenile-occupation |        |             |
-| Service   | gamma-without-CBC            |        |             |
-| Service   | gamma-with-CBC               |        |             |
-| Service   | gamma-regulation-rate        |        |             |
-| Outputs   | folder-path                  |        |             |
-|           |                              |        |             |
+| Module    | Parameter                    | Values | Description | Article de référence |
+| --------- | ---------------------------- | ------ | ----------- | -------------------- |
+| Landscape | Proportion                   |        |             |                      |
+| Landscape | Agregation                   |        |             |                      |
+| Landscape | Accuracy                     |        |             |                      |
+| Landscape | Max-permutations             |        |             |                      |
+| Time      | Nb-Years                     |        |             |                      |
+| Time      | Length-season                |        |             |                      |
+| Time      | Date-to-flee                 |        |             |                      |
+| Pest      | latent-period-duration       |        |             |                      |
+| Pest      | Infection-rate               |        |             |                      |
+| NE        | External-mortality           |        |             |                      |
+| NE        | foraging-frequency           |        |             |                      |
+| NE        | ability-to-detect            |        |             |                      |
+| NE        | mortality-pattern            |        |             |                      |
+| NE        | duration-before-eggs         |        |             |                      |
+| NE        | duration-juvenile-occupation |        |             |                      |
+| NE        | gamma-without-CBC            |        |             |                      |
+| Service   | gamma-with-CBC               |        |             |                      |
+| Service   | gamma-regulation-rate        |        |             |                      |
+| Service   | folder-path                  |        |             |                      |
+|           |                              |        |             |                      |
 
 
 
@@ -298,3 +394,11 @@ Rajouter les catégories :
 
 - Modèle biologique, pour décrire les assumptions tirées du modèle coccinelle aphids
 - Hypthèses
+
+
+
+Notes :
+
+Est-ce que les attributs qu'on fixe aux NEs sont vraiment des attributs ? En soi tous les NEs prennent les mêmes variables, et on ne joue pas sur l'hétérogénéité de ces valeurs (ce que l'on pourrait faire si on considérait différentes espèces de NEs par exemple)
+
+Benoît Collard FARRE
