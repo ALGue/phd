@@ -123,12 +123,11 @@ Ladybirds are expected to be generalist aphid predators within crop fields and a
 Positionnement par rapport à :
 
 - Bianchi et al 2007
-
 - Bianchi et al 2010
-
 - Mitchell et al. 2015
-
 - Jonsson et al. (2014)
+- Visser et al. (2009)
+- Segoli et al. (2012)
 
 Articulation entre conservation des populations : différents besoins localisés spatialement, nécessaire connectivité, et service = fragmentation qui peut servir à la répartition du service, capacités de déplacements + timing
 
@@ -170,7 +169,7 @@ Methodological literature:
 - Grimm et al. (2010)
 - Grimm et al. (2014)
 
-The model description following the ODD protocol (Grimm et al., 2010) is adopted from Railsback et Grimm (2012). The source code of the NetLogo model is included in the Supplementary Material.
+The model description following the ODD protocol (Grimm et al., 2010) is adapted from Railsback et Grimm (2012). The source code of the NetLogo model is included in the Supplementary Material.
 
 The model represents, in a simplified way, the meta-population dynamics of a natural enemy of crop pests, and how it affects the delivery of a biological control service, considered like a regulation service as far as a measure of crop loss. We model an agricultural landscape, as a matrix of crop and semi-natural patches. Natural enemies are able to forage, in order to find food (pests) and reproduce in crops during the season, while they flee to semi-natural patches for overwintering. The model provides a laboratory for developing a theory for the landscape management of natural enemies populations, regulation of pests and delivery of biological control service. We consider that farmers are able to modify the landscape complexity of agricultural landscapes, by varying composition or configuration of patches, and they have to address various patterns of pest outbreaks. Given the lifecycle of natural enemies, different submodels of foraging ability and capacity to survive in semi-natural habitats or in hostile matrix can be implemented. The interaction between landscape management and the characteristics of the lifecycle affects the dynamics of natural enemies and the regulation of pests, resulting in a biological control service and this output is compared to patterns observed in the reality for the corresponding lansdcape complexity, pest outbreak patterns and natural enemies characteristics.
 
@@ -357,32 +356,29 @@ Crop loss depends on:
 
 $(0.6 * exp(- gamma.without.CBC * (inf.date / length.season)) + 0.05) * 100$
 
-
-
 **Parameters** - Parameters are listed in Table 2
 
-| Module    | Parameter                    | Values | Description | Article de référence |
-| --------- | ---------------------------- | ------ | ----------- | -------------------- |
-| Landscape | Proportion                   |        |             |                      |
-| Landscape | Agregation                   |        |             |                      |
-| Landscape | Accuracy                     |        |             |                      |
-| Landscape | Max-permutations             |        |             |                      |
-| Time      | Nb-Years                     |        |             |                      |
-| Time      | Length-season                |        |             |                      |
-| Time      | Date-to-flee                 |        |             |                      |
-| Pest      | latent-period-duration       |        |             |                      |
-| Pest      | Infection-rate               |        |             |                      |
-| NE        | External-mortality           |        |             |                      |
-| NE        | foraging-frequency           |        |             |                      |
-| NE        | ability-to-detect            |        |             |                      |
-| NE        | mortality-pattern            |        |             |                      |
-| NE        | duration-before-eggs         |        |             |                      |
-| NE        | duration-juvenile-occupation |        |             |                      |
-| NE        | gamma-without-CBC            |        |             |                      |
-| Service   | gamma-with-CBC               |        |             |                      |
-| Service   | gamma-regulation-rate        |        |             |                      |
-| Service   | folder-path                  |        |             |                      |
-|           |                              |        |             |                      |
+| Module    | Parameter                    | Values                        | Unity  | Description                                                  | Article de référence |
+| --------- | ---------------------------- | ----------------------------- | :----: | ------------------------------------------------------------ | -------------------- |
+| Landscape | Proportion                   | 0-90                          |   %    | % of semi-natural patches in the landscape                   |                      |
+| Landscape | Agregation-level             | 1-5                           |   x    | Coefficient of agregation between semi-natural patches, computed thanks to the average number of shared edges between semi-natural patches |                      |
+| Landscape | Accuracy                     | 0.1                           |   x    | Quality of the match between the agregation level that the observer set and the agregation level of the computed virtual landscape |                      |
+| Landscape | Max-permutations             | 150                           |   x    | Maximal number of allowed permutations of patches in order to reach the wanted agregation-level. |                      |
+| Time      | Nb-Years                     | 5                             | years  | Total number of years of the simulation                      |                      |
+| Time      | Length-season                | 180                           | ticks  | Total number of ticks for the foraging season                |                      |
+| Time      | Date-to-flee                 | 150                           | ticks  | Date for which NEs end to forage for food and start for finding semi-natural patchs for overwintering |                      |
+| Pest      | latent-period-duration       | 6                             | ticks  | Number of ticks before a patch which has been infected may be detected by NE's |                      |
+| Pest      | Infection-rate               | 0.1-10                        |   %    | Percentage of crops without pests which are attacked every tick |                      |
+| NEs       | External-mortality           | 0.01-0.1                      |   x    | Probability of death, for each foraging-movement from a crop |                      |
+| NEs       | foraging-frequency           | 1-5                           |  tick  | Number of ticks which is necessary to move from one patch to a neigbouring one |                      |
+| NEs       | ability-to-detect            | 9/25/49                       | radius | Distance at which NEs are able to detect crops with pests    |                      |
+| NEs       | mortality-pattern            | constant / density-dependence |   x    | type of mortality pattern                                    |                      |
+| NEs       | duration-before-eggs         | 8                             | ticks  | Number of ticks NEs need to spend on crops with pests before being able to lay eggs and starting forage again |                      |
+| NEs       | duration-juvenile-occupation | 21                            | ticks  | Number of ticks juvenile NEs need to spend on crops with pests before definitely regulating them and becoming adult NEs |                      |
+| NEs       | gamma-without-CBC            | (- log(0.75) / (7 / 180))     |   x    | Coefficient for service computation, in order to compute the maximal crop loss on a crop patch, without any regulation from NEs |                      |
+| Service   | gamma-regulation-rate        | (- log(0.75) / (7 / 180))     |   x    | Coefficient for service computation, in order to compute the regulation rate of pests by NEs |                      |
+| Service   | folder-path                  | /folder-path                  |   x    | Folder path for output files                                 |                      |
+|           |                              |                               |        |                                                              |                      |
 
 
 
