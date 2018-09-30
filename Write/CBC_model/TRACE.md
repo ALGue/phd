@@ -354,8 +354,6 @@ Crop loss depends on:
 
 (equations)
 
-$(0.6 * exp(- gamma.without.CBC * (inf.date / length.season)) + 0.05) * 100$
-
 **Parameters** - Parameters are listed in Table 2
 
 | Module    | Parameter                    | Values                        | Unity  | Description                                                  | Article de référence |
@@ -380,12 +378,6 @@ $(0.6 * exp(- gamma.without.CBC * (inf.date / length.season)) + 0.05) * 100$
 | Service   | folder-path                  | /folder-path                  |   x    | Folder path for output files                                 |                      |
 |           |                              |                               |        |                                                              |                      |
 
-
-
-
-
-
-
 Rajouter les catégories :
 
 - Modèle biologique, pour décrire les assumptions tirées du modèle coccinelle aphids
@@ -397,4 +389,51 @@ Notes :
 
 Est-ce que les attributs qu'on fixe aux NEs sont vraiment des attributs ? En soi tous les NEs prennent les mêmes variables, et on ne joue pas sur l'hétérogénéité de ces valeurs (ce que l'on pourrait faire si on considérait différentes espèces de NEs par exemple)
 
+Est-ce qu'on kill les pops de NEs d'une année à l'autre (pas possible de survivre plusieurs années) ? Normalement les coccinelles sortent d'overwintering, pondent puis meurent, et ce sont leurs descendants qui font overwintering + colonisation l'année suivante.
+
+A vérifier : est-ce que les NEs sont attirés par tous les patchs crops infectés (y compris ceux qui contiennent des NEs) ?
+
 Benoît Collard FARRE
+
+### Concepts à mobiliser
+
+**<u>Meta-population</u>**
+
+Papiers de référence : Levins et al. (1969), Ives et Settle (1997)
+
+Levins et al. (1969) : en l'absence de prédateurs des ravageurs, l'application de mesures de contrôle des ravageurs (ici entendu pesticides) est optimale lorsque ces mesures sont synchrones splutôt qu'asynchrones, car les mesures synchrones permettent de supprimer la possibilité de reguges temporaires pour les ravageurs.	 
+
+Ives et Settle (1997) : en présence de prédateurs des ravageurs, le caractère optimal des mesures synchrones relativement aux mesures asynchrones est moins évident. Leur modèle retrouve l'optimalité des mesures synchrones (ici la synchronicité dans la plantation des cultures, plutôt que dans l'application d'un pesticide) en l'absence de prédateurs. Mais lorsque ceux-ci sont présents, le fait de planter les cultures de manière asynchrone peut être plus efficace, selon les taux de migration des ravageurs et des prédateurs dans les champs.
+
+**<u>Island biogeography theory</u>**
+
+Papier de référence : MacArthur et Wilson (1967), voir Segoli et al. (2012) pour une application
+
+"Des îles plus grandes ont une plus forte diversité spécifique, ce qui sous-entend aussi que les densités de populations devraient être plus importantes dans les habitats les plus grands".
+
+<u>**Resource concentration hypothesis**</u>
+
+Papier de référence : Root et al. (1973)
+
+Elle prédit que les herbivores spécialistes ont plus de chances de trouver et de demeurer sur leurs plantes hôtes dans les grandes monocultures, provoquant l'augmentation des densités de quelques espèces de ravageurs seulement, ce qui réduit la persistence des prédateurs généralistes.
+
+**<u>Spatial heterogeneity hypothesis</u>**
+
+Papiers de référence : Huffaker (1958), Beddington et al. (1978), Kareiva et al. (1987), Hassell et al. (1993)
+
+L'importance de l'hétérogénéité spatiale (**<u>synonyme souvent de fragmentation</u>**) sur les interactions hôte-parasitoïde est connue depuis l'expérience fondatrice de Huffaker (1958).
+
+L'hétérogénéité spatiale a été classiquement vue comme stabilisatrice du comportement oscillatoire des dynamiques hôte-parasitoïdes, augmentant donc la persistance de ces interactions. Elle a donc été perçus comme favorable au contrôle biologique, et comme un mécanisme autorisant la suppression forte des ravageurs (Beddington et al., 1978).
+
+Néanmoins, d'autres travaux empiriques (Kareiva et al., 1987) comme de modélisation (Hassell et al., 1993) ont remis en question ce rôle favorable de la fragmentation comme stabilisateur des interactions, pour plutôt souligner le fait que la fragmentation peut aussi causer des explosions de ravageurs prolongées dans le temps, et favoriser l'extinction des parasitoïdes.
+
+Ce rôle négatif de la fragmentation sur les interactions hôtes-parasitoïdes ou proie-prédateurs pourrait trouver son origine dans deux causes distinctes :
+
+- une capacité de dispersion limitée des parasitoïdes (Tscharntke et al., 2005)
+- un comportement spécifique de recherche des proies par leurs prédateurs selon les caractéristiques du paysage (With et al., 2002)
+
+<u>**Landscape complementation**</u>
+
+Papiers de référence : Dunning et al. (1992)
+
+Les individus se déplacent dans le paysage, entre patches, afin de trouver des ressources non-substituables entre elles.
