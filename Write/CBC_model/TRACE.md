@@ -323,37 +323,83 @@ We now list and order the executed processes for each period:
 
 <u>*Basic principles:*</u>
 
+Empirical results show a diversity of relationships between the structure of agricultural landscapes and the delivery of the service of conservation biological control, sometimes positive, negative or neutral. Especially, the proportion of semi-natural elements in the landscape seems to be an important feature, however with ambiguous results. 
+
+It has often been argued that manipulating landscape features could be efficient agroecological levers in order to benefit from biological control, especially with the strained context about the use of chemicals to manage pests. However, the ambiguity of field results questions the mechanisms controlling the success or failure of these levers. There is a lot of difficulties in empirically investigating the relationship between landscape management and biological control, as the underlying mechanisms, because of the large spatio-temporal scales that are needed to consider, or also of the correlation between explanatory or output variables. As a consequence, modelling can help to generate and assess multiple hypothesis and scenarios.
+
+Many NEs need no substituable resources to sustain themselves, and they find them into different habitats. That is why the presence of semi-natural elements is often correlated to the persistence and the dynamic of these NEs. This influence of landscape is known as the concept of landscape complementation.
+
+The landscape structure affects both the dynamic of individual species and species interactions. For instance, landscape complexity and fragmentation can interplay with the dispersal ability of NEs (for instance their foraging speed and their ability to detect various resources), which affects the probability for them to find crops with pests, and finally influence both the persistence of NEs but also the regulation of pests. As a consequence, the consequences of the landscape features on the pest-predator system can emerge from ecological features which are not scale dependent.
+
+However, the influence of landscape features on the dynamic is not necessary the same than on the delivery of the biological control service. Indeed, while fragmentation is often seen as a risk factor for persistence of NEs, it could  also be related to a positive and more homogenized provision of service. It suggests the possibility of tradeoff between the outcomes relative to prey-predator dynamics and the biological control service delivery when landscape management levers are implemented. Indeed, biological control can be assessed through indicators such as the crop loss experienced in crop fields. It is well established that the negative impact of pests on crops depends on the phenology of the plant, and so of the time into the plant growing period. It also depends on how much time pests can spend on crops without regulation, *id est* of the timing of arrival of predators on crops. As a consequence, while a certain landscape structure can ensure the persistence of predators, and finally a good regulation of pests, it is not necessary going hand in hand with the wanted crop loss threshold.
+
+We model an agricultural landscape with crops and semi-natural elements, and a tri-trophic species module: the crop, an herbivore (a crop pest) and a predator (the natural enemy of the pest). We assume that NEs need crops for reproducing and semi-natural elements for overwinternig, as no substituable resources, during their life-cycle. Under a variety of scenarios regarding the ecological features of individual species, we explore the consequences of the landscape complexity on the pest-predator dynamic and the delivery of the biological control service, understood as a crop loss indicator. In our model, this indicator depends on both timings of successive pest and predator arrivals on crops.
+
+ 
+
+...............
+
+
+
 <u>*Emergence:*</u>
 
  the results we are interested in are the patterns of pest - natural enemies dynamics, regulation of crop patches, and crop losses due to pests, which describe the biological control service. They all emerge from the interaction between landscape complexity, pest outbreak pattern, and the landscape-NE behaviour interaction. Other parameters such as the initial position of NE populations, and external morality rates can also affect the model outputs, as a consequence we analyzed the sensitivity of the model for them.
 
 <u>*Adaptation:*</u>
 
+foraging / stay to reproduce / stay for overwintering ?
+
 <u>*Objectives:*</u>
+
+choix de la destination lors du foraging ?
 
 <u>*Learning:*</u>
 
+Agents (NEs) can not adapt their traits over time as a consequence of their experience. As a consequence, all the ecological features are set during the initialization of the simulation.
+
 <u>*Prediction:*</u>
+
+We do not consider predictions from agents, based on their experience, to adapt their decision process because all the ecological features are set before the beginning of the simulation.
 
 <u>*Sensing:*</u>
 
+NEs are able to detect food, id est crops with pests in radius around their location with varying length, depending on the ability that the observer has set.
+
+Whatever the distance, NEs are assumed to be able to detect the closest semi-natural patch from their location when foraging to find overwintering habitats.
+
 <u>*Interaction:*</u>
+
+We assume strong competition between the NEs for the resources. 
+
+crops 
+
+semi-natural : carrying capacity
+
+Direct interactions
 
 <u>*Stochasticity:*</u>
 
+Between simulations (landscape and location of NEs)
+
+external mortality
+
+pattern of pests
+
+choix du voisin si foraging sans préférence
+
 <u>*Collectives:*</u>
+
+cluster parce qu'on considère les patchs semi-naturels +/- comme des agents
 
 <u>*Observation:*</u>
 
+explanatory variables
+
+output variables
 
 
 
-
-
-
-
-
-Biological assumptions
+**Biological assumptions **-
 
 *Meta-population of natural enemie*s 
 
@@ -393,11 +439,7 @@ A crop patch which has been cured cannot be infected again by pests.
 
 Biological control service can also be measured as a "crop loss", and it only depends on the date of arrival of the pests on the crop patch, in order to take into account the phenology of the crops, and of the time frame between this date and the date of arrival of the NE
 
-3. Observations
-
-we measure the dynamics of infected crops and of the population of NE, measuring abundances. We also measure the foraging distance of NE in order to relate it to the regulation of pests and the crop loss. 
-
-4. Hypothesis
+**Hypothesis** - 
 
 Our hypothesis are:
 
@@ -415,18 +457,17 @@ The observer has set the initial number of NEs, and they are located on semi-nat
 
 These two steps are described more in details in the section 'process overview'. Rather, we want here to underline the differences between 2 distinct simulations:
 
-Whereas the values for
+Whereas the values for:
 
-- landscape features
-- and initial number of NEs
+- landscape features,
+- and initial number of NEs,
 
-could be the same between 2 simulations, in order to allow comparisons, the landscape structure has changed, as the location of the NEs. Indeed, for each simulation, we compute a new lansdcape grid on which we allocate the given initial number of NEs. These two processes include stochasticity and as a consequence, two initial environments are not directly and totally comparable.
+could be the same between 2 simulations, in order to allow comparisons, the landscape structure has changed, as the location of the NEs. Indeed, for each simulation, we compute a new lansdcape grid on which we allocate the given initial number of NEs. These two processes include stochasticity and as a consequence, two initial environments are not directly and totally comparable. In order to overcome this difficulty, we run for each scenario of initial environment a set of simulations and we average the results.
 
 Simulation starts:
 
 - At year = 0
-- At day = 0 (day variable is re-initialized every year)
-- day 0 should be considered as the 1st of March, id est the first day of the foraging period for NE's, or the last day of overwintering period.
+- At day = 0 (this variable is re-initialized every year)
 
 **Input data** - The model does not include any external input.
 
