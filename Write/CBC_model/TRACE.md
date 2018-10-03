@@ -333,25 +333,38 @@ The landscape structure affects both the dynamic of individual species and speci
 
 However, the influence of landscape features on the dynamic is not necessary the same than on the delivery of the biological control service. Indeed, while fragmentation is often seen as a risk factor for persistence of NEs, it could  also be related to a positive and more homogenized provision of service. It suggests the possibility of tradeoff between the outcomes relative to prey-predator dynamics and the biological control service delivery when landscape management levers are implemented. Indeed, biological control can be assessed through indicators such as the crop loss experienced in crop fields. It is well established that the negative impact of pests on crops depends on the phenology of the plant, and so of the time into the plant growing period. It also depends on how much time pests can spend on crops without regulation, *id est* of the timing of arrival of predators on crops. As a consequence, while a certain landscape structure can ensure the persistence of predators, and finally a good regulation of pests, it is not necessary going hand in hand with the wanted crop loss threshold.
 
-We model an agricultural landscape with crops and semi-natural elements, and a tri-trophic species module: the crop, an herbivore (a crop pest) and a predator (the natural enemy of the pest). We assume that NEs need crops for reproducing and semi-natural elements for overwinternig, as no substituable resources, during their life-cycle. Under a variety of scenarios regarding the ecological features of individual species, we explore the consequences of the landscape complexity on the pest-predator dynamic and the delivery of the biological control service, understood as a crop loss indicator. In our model, this indicator depends on both timings of successive pest and predator arrivals on crops.
-
- 
-
-...............
-
-
+We model an agricultural landscape with crops and semi-natural elements, and a tri-trophic species module: the crop, an herbivore (a crop pest) and a predator (the natural enemy of the pest). We assume that NEs experience landscape complementation, and need crops for reproducing and semi-natural elements for overwinternig, as no substituable resources, during their life-cycle. Under a variety of scenarios regarding the ecological features of individual species, we explore the consequences of the landscape complexity on the pest-predator dynamic and the delivery of the biological control service, understood as a crop loss indicator. In our model, this indicator depends on both timings of successive pest and predator arrivals on crops. We explore the variation in average crop loss, depending on the landscape complexity, and also the spatial heterogeneity of crop loss in the landscape. Results in terms of crop loss are confronted with the dynamic outputs, in order to test the coherence of these distinct indicators.
 
 <u>*Emergence:*</u>
 
- the results we are interested in are the patterns of pest - natural enemies dynamics, regulation of crop patches, and crop losses due to pests, which describe the biological control service. They all emerge from the interaction between landscape complexity, pest outbreak pattern, and the landscape-NE behaviour interaction. Other parameters such as the initial position of NE populations, and external morality rates can also affect the model outputs, as a consequence we analyzed the sensitivity of the model for them.
+With our model, we want to test if we are able to reproduce different relationships (positive, negative) between the landscape complexity (total amount of semi-natural elements in the landscape) and some indicators of:
+
+- NEs dynamics,
+- regulation of pests,
+- biological control service (crop loss),
+
+when we implement distinct scenarios for ecological features of the pest-predator system.
+
+These scenarios are about:
+
+- pest features: intensity of the attacks of crops by pests
+- predator features: external mortality in crops when foraging, dispersal ability (foraging speed and ability to detect crops with pests)
+
+The output patterns emerge from the interplay between the landscape structure and the ecological features which drive the pest-predator system dynamic through the behaviour of NEs.
 
 <u>*Adaptation:*</u>
 
-foraging / stay to reproduce / stay for overwintering ?
+We do not implement any evolutive trait, nor any capacity for agents to adapt their decision-making modes in our model.
+
+However, NEs take decisions when foraging, to orient themselves. This decision depends on the landscape structure around them and on how they are able to perceive it.
 
 <u>*Objectives:*</u>
 
-choix de la destination lors du foraging ?
+Actions to find crops with pests and overwintering habitats when necessary are the two determinants of the individual fitness for one NEs popoulation (= one agent).
+
+When foraging for food, NEs have to choose in a radius one patch to orient themselves before jumping from their location to one neighbour. We choose a deterministic way for decision-making. Indeed, NEs choose in the radius they are able to perceive the crop patch where pests have spent the longer time, whatever the distance from their current location. As a consequence, NEs may prefer to orient towards a further patch whereas other patches with pests are in the vicinity.
+
+When foraging for overwintering habitats, the decision is deterministic and we assume that NEs have a complete understanding of the landscape and are able to detect the closest semi-natural patch from their location. As a consequence, they always do the best choice in orienting themselves.
 
 <u>*Learning:*</u>
 
@@ -367,25 +380,29 @@ NEs are able to detect food, id est crops with pests in radius around their loca
 
 Whatever the distance, NEs are assumed to be able to detect the closest semi-natural patch from their location when foraging to find overwintering habitats.
 
-<u>*Interaction:*</u>
+<u>*Interactions:*</u>
 
-We assume strong competition between the NEs for the resources. 
+Of course we assume direct interactions between pests and predators, trophic interactions. When they encounter crops with a sufficient density of pests, *id est* pests are on this crop patch for long enough, NEs stay on this crop until reproducing. Juveniles are not modeled as agents, rather we model a crop patch status "with pests and juveniles". Reproduction rate is of 1, *id est* one NEs population on a crop with pests will give birth to one another NEs population modeled as an agent. This reproduction rate is not variable and does not depend on other conditions.
 
-crops 
+We also assume indirect interactions of competition, between NEs, of two types:
 
-semi-natural : carrying capacity
-
-Direct interactions
+- competition for food: when a NEs has found a crop with pests, it stays on it until reproducing. Although the other NEs are able to detect this same crop patch and orient themselves towards it, because of pests, they are not allowed to stay on it if it is already occupied by NEs. 
+- competition for overwintering habitats: clusters of semi-natural patches have a certain carrying capacity, in terms of the total number of NEs populations they are able to shelter for overwintering. When too many NEs have reached the same cluster, they are not able to search for less crowded clusters, and the populations in excess are killed.
 
 <u>*Stochasticity:*</u>
 
-Between simulations (landscape and location of NEs)
+We use different sources of stochasticity in our simulations:
 
-external mortality
+The first source is about the landscape structure, which can vary between 2 simulations, whereas the same values aer used for descriptors such as the amount of semi-natural patches and the agregation level.
 
-pattern of pests
+Also during the initialization, the location of the NEs is randomized between simulations.
 
-choix du voisin si foraging sans préférence
+A second source is about the spatial pest attack pattern, because the location of crops which are attacked by pests is randomized.
+
+A third source is about the conditions that endure NEs and their behaviour:
+
+- at first, NEs experience external mortality each time they are in crops. As a consequence they can die when foraging in crops with a certain probability.
+- when they forage, if there is no crops with pests in the radius, NEs have to randomly choose any patch in their neighbourhood
 
 <u>*Collectives:*</u>
 
@@ -396,8 +413,6 @@ cluster parce qu'on considère les patchs semi-naturels +/- comme des agents
 explanatory variables
 
 output variables
-
-
 
 **Biological assumptions **-
 
