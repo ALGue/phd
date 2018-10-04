@@ -673,22 +673,43 @@ Crop loss depends on:
 
 ## ODD 2
 
-**<u>Overview</u>**
+**<u>2.1 Overview</u>**
 
-**Purpose** -
+**2.1.1. Purpose** -
 
 The purpose of the model was to investigate how the spatial arrangement of crops and semi-natural elements in an agricultural landscape can deliver various patterns for the ecosystem service of conservation biological control, emerging from the ecological features of the pest-predator system.
 
-**State variables and scales** -
+**2.1.2. State variables and scales** -
 
-We represent an agricultural landscape with a spatial grid, each cell of the grid is a patch and can be either a crop field  or a semi-natural element. Semi-natural elements in agricultural landscapes are woody, herbaceous or flowering elements, which are not cultivated nor intensively managed by farmers. We discretized the spatial domain in 33 * 33 cells of 1ha. The landscape structure can be summarized thanks to several indicators, such as the proportion of semi-natural elements, or their agregation. Time-step is the day, and simulations were run several successive years in order to reach an equilibrium.
+We represent an agricultural landscape with a spatial grid, each cell of the grid is a patch and can be either a crop field  or a semi-natural element. Semi-natural elements in agricultural landscapes are woody, herbaceous or flowering elements, which are not cultivated nor intensively managed by farmers. We discretized the spatial domain in 33 * 33 cells of 1ha. The landscape structure can be summarized thanks to several indicators, such as the proportion of semi-natural elements, or their agregation. Time-step is the day, and simulations for one iteration of the model were run several successive years in order to reach an equilibrium.
 
 Predators populations are the main entities of the model, represented as individuals taking any location in the landscape grid, *id est* we assume that an individual on a patch is like a population covering the whole area of the patch. We have only explicitely modelled adult predator stage, which is characterized by a dispersal ability. We have not explicitely modelled juvenile predators, nor pests, which are implicitely encapsulated in attributes of patches. As a consequence, individual predators only interact with patches, no other individual entities.
 
+Pests are characterized by the attacking intensity, *id est* the number of crops that they are able to infect each day, and by the spatial pattern of infection. This pattern can be completely randomized, or being oriented by spreading in the vicinity from intial sources in crops or semi-natural elements. Predators can have different abilities to forage, according to the foraging speed (the number of jumps from patch to neighboour patch they are able to do in one day) and the ability to detect crops with pests (the distance radius in which they can detect them). Predators also experience varying mortality, in crops because of disturbances, and in semi-natural elements during overwintering, because of the limited carrying capacity of semi-natural elements during this season which drives the competition between predators. According to these ecological features of the pest-predator system, we have built different scenarios that we have implemented while varying the landscape structure, in order to understand how they interplay to produce distinct patterns of crop loss at the landscape scale.
 
+**2.1.3. Process overview and scheduling** -  
 
-**Process overview and scheduling** -  
+Each year is characterized by a succession of events grouped into 3 seasons: foraging for food, foraging for overwintering habitats and overwintering. During the 'foraging for food' season, predators forage in the whole landscape in order to find crops with pests. When they find them, they stay until reproducing and once it is done they are still foraging. Juvenile predators regulate pests, become adults and start foraging. At a certain point, predators change their foraging behaviour, in order to find overwinternig habitats rather than crops with pests. They detect the closest semi-natural patch from their location and try to move to it. When the 'overwintering' season starts, predators that are still in crops are killed. Semi-natural elements have a limited carrying capacity and as a consequence, predators in excess on a semi-natural element died. A new year starts once the overwintering season is completed. One iteration of the model represents successive years.
 
+We present below the sequence of the events describing the course of the year:
 
+(A) 'foraging for food' season (days 0 - 150)
 
-We have built different scenarios, according to the ecological features of the pest-predator system. During the growing season, crops are attacked by pests, according to a certain intensity and spatial pattern. After being attacked, crops can become attractive for predators, which move to them and reproduce as soon as a certain amount of time is spent. Once they have reproduced, they are still foraging into the landscape to find crops with pests, until the end of the season, when it is time to find semi-natural elements where they would be able to overwinter during the rest of the year. Crops with pests experience a crop loss, which depends on the timing of arrival of both pests, and of predators after pests. We characterized distinct scenarios with different pest patterns (intensity and spatial pattern), different foraging abilities and  different mortality rates both in crops and semi-natural elements for predators. We have implemented these scenarios while varying the landscape structure, in order to understand how they interplay to produce distinct patterns of crop loss at the landscape scale.
+- Procedure *UpdateCropStatus* (Section 2.3.1.1) updates the attributes of crops according to the presence of pests or predators on themselves
+- Procedure *PestPattern*  (Section 2.3.1.2) converts some crops which were free of pests into crops with pests
+- Procedure *MortalityInCrops*  (Section 2.3.1.3) makes a certain number of predators foraging in crops to die
+- Procedure *ForagingForCrops*  (Section 2.3.1.4) decides for each predator which is not yet on a crop with pest to move
+
+(B) 'foraging for overwintering habitats' season (days 150 - 180)
+
+- Procedure *UpdateCropStatus* updates the attributes of crops according to the presence of pests or predators on themselves
+- Procedure *MortalityInCrops* makes a certain number of predators foraging in crops to die
+- Procedure *ForagingForOverwinteringHabitats*  (Section 2.3.1.5) decides for each predator which is not yet on a semi-natural patch  to move
+
+(C) 'Overwintering' season (day 180 - day 0: this season represents half a year but is computed in only 1 tick)
+
+- Procedure *OverwinteringInSemiNaturals*  (Section 2.3.1.6) delete predators in excess according to the carrying capacity of the semi-natural element where they sheltered, and dispatch them into the semi-natural patches of the same cluster
+
+**<u>2.2 Design concepts</u>**
+
+**Basic principles** -
