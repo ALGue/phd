@@ -695,21 +695,82 @@ We present below the sequence of the events describing the course of the year:
 
 (A) 'foraging for food' season (days 0 - 150)
 
-- Procedure *UpdateCropStatus* (Section 2.3.1.1) updates the attributes of crops according to the presence of pests or predators on themselves
-- Procedure *PestPattern*  (Section 2.3.1.2) converts some crops which were free of pests into crops with pests
-- Procedure *MortalityInCrops*  (Section 2.3.1.3) makes a certain number of predators foraging in crops to die
-- Procedure *ForagingForCrops*  (Section 2.3.1.4) decides for each predator which is not yet on a crop with pest to move
+- Procedure *UpdateCropStatus* (Section 2.3.2.1) updates the attributes of crops according to the presence of pests or predators on themselves
+- Procedure *PestPattern* (Section 2.3.2.2) converts some crops which were free of pests into crops with pests
+- Procedure *MortalityInCrops* (Section 2.3.2.3) makes a certain number of predators foraging in crops to die
+- Procedure *ForagingForCrops* (Section 2.3.2.4) decides for each predator which is not yet on a crop with pest to move
 
 (B) 'foraging for overwintering habitats' season (days 150 - 180)
 
 - Procedure *UpdateCropStatus* updates the attributes of crops according to the presence of pests or predators on themselves
 - Procedure *MortalityInCrops* makes a certain number of predators foraging in crops to die
-- Procedure *ForagingForOverwinteringHabitats*  (Section 2.3.1.5) decides for each predator which is not yet on a semi-natural patch  to move
+- Procedure *ForagingForOverwinteringHabitats* (Section 2.3.2.5) decides for each predator which is not yet on a semi-natural patch  to move
 
 (C) 'Overwintering' season (day 180 - day 0: this season represents half a year but is computed in only 1 tick)
 
-- Procedure *OverwinteringInSemiNaturals*  (Section 2.3.1.6) delete predators in excess according to the carrying capacity of the semi-natural element where they sheltered, and dispatch them into the semi-natural patches of the same cluster
+- Procedure *OverwinteringInSemiNaturals* (Section 2.3.2.6) delete predators in excess according to the carrying capacity of the semi-natural element where they sheltered, and dispatch them into the semi-natural patches of the same cluster
+- Procedure *CropLoss* (Section 2.3.2.7) computes for every crop patch the experienced crop loss
 
 **<u>2.2 Design concepts</u>**
 
 **Basic principles** -
+
+We conceptualize the service of conservation biological control as a top-down ecological process, with predators regulating pests on crops. As a conquence, we have modelled a tri-trophic module: crops-pests-predators, in order to study its dynamic, as the relationship with crop loss. We have not explicitely modelled pests and juvenile predators, rather we have used a classical approach in epidemiology, the SIR model, which is the simplest comportmental model. A crop patch can experience a succession of status, with transitions between the status, in relationship with the presence or not of pests, pests and adult predators, or pests and juvenile predators. Crop loss into one patch does not explicitely depend on the pest dynamic into the patch. Rather, we choose to derive the crop loss from the timings of arrival of pests on the crop patch (to include the phenology of the crop) and of predators (to include the regulation activity). Landscape structure and the foraging behaviour of predators interplay to drive the timing of arrivals. We assume that predators must experience landscape complementation during their life-cycle, as they need two no substitutable resources, which are crops with pests to reproduce, and semi-natural elements to overwinter between two cropping periods.
+
+**Emergence** -
+
+We have implemented in our model individual behaviours and scenarios for scale-independent ecological features, and the main properties emergent are (1) the collective behaviour of the predators (2) the pattern of biological control delivery, at the landscape scale.
+
+**Interactions** - 
+
+We modelled direct interactions between predators and crops with pests, which occur when predators detect, move and stay on crops with pests until giving birth to juveniles. We also modelled two kinds of indirect interactions of competition. During the foraging for food season, predators compete for crops with pests, because two individuals can not lay eggs on the same crop patch. During overwintering, given the limited carrying capacity of semi-natural elements, predators compete to successfully overwinter.
+
+**Stochasticity** -
+
+We have included stochasticity into the initialization step, and as a consequence two model iterations could be characterized with the same landscape descriptors, though the landscape pictures are not necessary the same. Allocation of individual predators on semi-natural patches during the initialization step is also randomized. The spatial pattern of pests also include stochasticity to choose the ones that pests attack. Mortality of individual predators when foraging in crops is considered as a Bernoulli trial, and mortality for predators in excess during the overwintering is uniform.
+
+**Collectives** -
+
+Two kind of collectives are considered. At first, we have grouped semi-natural patches which share at least one edge in clusters in order to allocate a carrying capacity, as a function of the cluster size (number of patches). We also consider individual predators not as one predator organism, rather as one population (a collection) of organisms with the same characteristics.
+
+**Observation** -
+
+We measure the dynamic of predators (abundance) over time, as the dynamic of pests (crops with pests). For every crop patch, we pick the timings of arrival of pests and predators if these events have occured. These data allow us to compute the total regulation at the landscape scale, *id est* the total number of crops with pests and visited by predators, and also for every crop patch its crop loss value. We average crop loss between crop patches, at the landscape scale. Finally, we also oberve the spatial heterogeneity of crop loss, by computing standard deviation between crop patches.
+
+**<u>2.3. Details</u>**
+
+
+
+2.3.1. Scenarios ?
+
+2.3.2. Submodels
+
+2.3.2.1. Procedure *UpdateCropStatus*
+
+Crops can experience 6 successive and distinct status. At the beginning of the simulation, crops are free of pests (1). Once they have been attacked by pests, they are '*latent*' (2), because pests need a certain amount of time to build up and be attractive for predators. Once they are '*attractive*' (3), predators are able to detect them and to decide to stay on them in order to reproduce: it is a crop '*occupied by adults*' (4). Once they have reproduced, predators leave this patch, which is occupied by juveniles: it is a crop occupied by '*juveniles*' (5). Juveniles need a certain amount of time to regulate pests and to become adults. Once they are adults, they are able to forage and they leave the crop patch, which is definitely '*regulated*' (6), because we do not allow for successive pest attacks.
+
+*Scheme for transitions between status*
+
+2.3.2.2. Procedure *PestPattern*
+
+Pests attack crops with a certain intensity, *id est* a certain number of crops are attacked every tick, and according to a spatial pattern. The simplest pattern is the one totally randomized among the crop patches which are still free of pests. Intensity and spatial pattern are set during the whole model iteration, and can not vary during years.
+
+2.3.2.3. Procedure *MortalityInCrops*
+
+Predators experience mortality in crops when they forage. When an individual stays on one crop patch, and before foraging, we compute the probability to die because of external mortality (which can be interpreted as the result of disturbances such as the application of pesticides for instance). The rule is a Bernoulli trial.
+
+2.3.2.4. Procedure *ForagingForCrops*
+
+Once the overwintering season is ended, predators begin to forage in the whole landscape, in order to find crops with pests. Predators jump from patch to patch, and they need a certain amount of tick to do one jump, according to their foraging-speed. They orient themselves thanks to their ability to detect attractive crops. They can detect these patches in a radius whose length depends on this ability. They always orient towards the crop with the older pest attack, otherwise they randomly choose one patch in their neighbourhood. When they have found one attractive crop, they stay here until they have reproduced.
+
+2.3.2.5. Procedure *ForagingForOverwinteringHabitats*
+
+At the beginning of the 'foraging for overwintering' season, individual predators change their behavior and do no longer search for attractive crops. Rather they are able to detect the closest semi-natural patch and they move towards it with the same foraging-speed than in the previous season.
+
+2.3.2.6. Procedure *OverwinteringInSemiNaturals*
+
+During the overwintering season, we compute the total number of individual predators on a semi-natural cluster, and we compare it to the carrying capacity of this cluster. This carrying capacity depends on the total number of the cluster, by a coefficient which is set by the observer. The individuals in excess die, and the other ones are dispatched on the semi-natural patches of the cluster to initialize the next year.
+
+2.3.2.7. Procedure *CropLoss*
+
+At the end of the year, just before starting a new one, we compute the crop loss for each crop patch. Crop loss depends on two values: the timings of arrival (i) of pests, and (ii) of predators. The pest arrival date allows us to take into account the effect of the crop phenology. Indeed, we consider that the later the pests arrive, the lesser the crop loss should be. According to the scenario, various relationships between the pest arrival date and the crop loss can be implemented. This represents the theoretical maximum of crop loss, in the absence of regulation. If regulation occurs, predators regulate pests, and finally the crop loss of the patch, in a certain extent. We compute the duration between the arrivals of pests and predators. The longer the duration, the lesser the coefficient of regulation. We then apply this  coefficient of regulation to the theoretical maximum of crop loss, in order to get the value of crop loss for the crop patch.
