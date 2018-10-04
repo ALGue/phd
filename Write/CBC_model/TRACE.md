@@ -120,6 +120,78 @@ Remarque : d'après Karp et al. (2018) => différences entre
 
 Ladybirds are expected to be generalist aphid predators within crop fields and are abundant when fields are surrounded by non-crop lands (Elliott et al. 1999, Gardiner et al., 2009, Taki et al., 2013) => optimal scale 1000m radius 
 
+Notes :
+
+Est-ce que les attributs qu'on fixe aux NEs sont vraiment des attributs ? En soi tous les NEs prennent les mêmes variables, et on ne joue pas sur l'hétérogénéité de ces valeurs (ce que l'on pourrait faire si on considérait différentes espèces de NEs par exemple)
+
+Est-ce qu'on kill les pops de NEs d'une année à l'autre (pas possible de survivre plusieurs années) ? Normalement les coccinelles sortent d'overwintering, pondent puis meurent, et ce sont leurs descendants qui font overwintering + colonisation l'année suivante.
+
+Peut-être envisager trois leviers :
+
+- augmentation de la quantité d'habitats
+- fragmentation
+- isolement des habitats (cf. Visser et al. 2009)
+
+avec 3 mesures différentes :
+
+- persistance des prédateurs
+- pic d'abondance / audpc ?
+- régulation
+- crop loss
+
+Distinguer du coup des scénarios de crop loss moyenne / sd(crop loss), les deux indicateurs étant complémentaires pour une gestion au paysage.
+
+Le tout médié via des propriétés émergentes des systèmes proies-prédateurs qui sont échelle-dépendantes mais qui dérivent de processus qui ne sont pas échelle-dépendants : propriétés de dispersion des prédateurs (ability, foraging-frequency), taux de croissance des ravageurs (infection-rate), pattern de dispersion / apparition des ravageurs (random, depuis les snh, depuis les crops = où est-ce que se produit l'overwintering des pests)
+
+
+
+A vérifier : est-ce que les NEs sont attirés par tous les patchs crops infectés (y compris ceux qui contiennent des NEs) ?
+
+Benoît Collard FARRE
+
+### Concepts à mobiliser
+
+**<u>Meta-population</u>**
+
+Papiers de référence : Levins et al. (1969), Ives et Settle (1997)
+
+Levins et al. (1969) : en l'absence de prédateurs des ravageurs, l'application de mesures de contrôle des ravageurs (ici entendu pesticides) est optimale lorsque ces mesures sont synchrones splutôt qu'asynchrones, car les mesures synchrones permettent de supprimer la possibilité de reguges temporaires pour les ravageurs.	 
+
+Ives et Settle (1997) : en présence de prédateurs des ravageurs, le caractère optimal des mesures synchrones relativement aux mesures asynchrones est moins évident. Leur modèle retrouve l'optimalité des mesures synchrones (ici la synchronicité dans la plantation des cultures, plutôt que dans l'application d'un pesticide) en l'absence de prédateurs. Mais lorsque ceux-ci sont présents, le fait de planter les cultures de manière asynchrone peut être plus efficace, selon les taux de migration des ravageurs et des prédateurs dans les champs.
+
+**<u>Island biogeography theory</u>**
+
+Papier de référence : MacArthur et Wilson (1967), voir Segoli et al. (2012) pour une application
+
+"Des îles plus grandes ont une plus forte diversité spécifique, ce qui sous-entend aussi que les densités de populations devraient être plus importantes dans les habitats les plus grands".
+
+<u>**Resource concentration hypothesis**</u>
+
+Papier de référence : Root et al. (1973)
+
+Elle prédit que les herbivores spécialistes ont plus de chances de trouver et de demeurer sur leurs plantes hôtes dans les grandes monocultures, provoquant l'augmentation des densités de quelques espèces de ravageurs seulement, ce qui réduit la persistence des prédateurs généralistes.
+
+**<u>Spatial heterogeneity hypothesis</u>**
+
+Papiers de référence : Huffaker (1958), Beddington et al. (1978), Kareiva et al. (1987), Hassell et al. (1993)
+
+L'importance de l'hétérogénéité spatiale (**<u>synonyme souvent de fragmentation</u>**) sur les interactions hôte-parasitoïde est connue depuis l'expérience fondatrice de Huffaker (1958).
+
+L'hétérogénéité spatiale a été classiquement vue comme stabilisatrice du comportement oscillatoire des dynamiques hôte-parasitoïdes, augmentant donc la persistance de ces interactions. Elle a donc été perçus comme favorable au contrôle biologique, et comme un mécanisme autorisant la suppression forte des ravageurs (Beddington et al., 1978).
+
+Néanmoins, d'autres travaux empiriques (Kareiva et al., 1987) comme de modélisation (Hassell et al., 1993) ont remis en question ce rôle favorable de la fragmentation comme stabilisateur des interactions, pour plutôt souligner le fait que la fragmentation peut aussi causer des explosions de ravageurs prolongées dans le temps, et favoriser l'extinction des parasitoïdes.
+
+Ce rôle négatif de la fragmentation sur les interactions hôtes-parasitoïdes ou proie-prédateurs pourrait trouver son origine dans deux causes distinctes :
+
+- une capacité de dispersion limitée des parasitoïdes (Tscharntke et al., 2005)
+- un comportement spécifique de recherche des proies par leurs prédateurs selon les caractéristiques du paysage (With et al., 2002)
+
+<u>**Landscape complementation**</u>
+
+Papiers de référence : Dunning et al. (1992)
+
+Les individus se déplacent dans le paysage, entre patches, afin de trouver des ressources non-substituables entre elles.
+
 ### Articles contre lesquels se positionner
 
 Positionnement par rapport à :
@@ -130,6 +202,10 @@ Positionnement par rapport à :
 - Jonsson et al. (2014)
 - Visser et al. (2009)
 - Segoli et al. (2012)
+
+Voir aussi Kasai et Karpis (2011) sur la façon dont ils utilisent un ABM dans un contexte de conservation.
+
+Pour UML et pour dynamic flowchart voir Arrignon et al. (2007)
 
 Articulation entre conservation des populations : différents besoins localisés spatialement, nécessaire connectivité, et service = fragmentation qui peut servir à la répartition du service, capacités de déplacements + timing
 
@@ -163,7 +239,7 @@ Martin et al. (2016)
 
 Woltz et al (2012)
 
-## ODD
+## ODD 1
 
 Methodological literature:
 
@@ -406,60 +482,95 @@ A third source is about the conditions that endure NEs and their behaviour:
 
 <u>*Collectives:*</u>
 
-cluster parce qu'on considère les patchs semi-naturels +/- comme des agents
+We consider groups of semi-natural patches, *id est* patches which share at least one side, as a collective entity called 'cluster', with specific attributes and properties.
 
-<u>*Observation:*</u>
+Especially, they interact with NEs during overwintering, because clusters have a carrying capacity depending on their size (number of patches in the cluster).
 
-explanatory variables
+<u>*Observations:*</u>
 
-output variables
+During each simulation, we pick a collection of variables, which could be explanatory as outputs.
 
-**Biological assumptions **-
+Explanatory variables are:
 
-*Meta-population of natural enemie*s 
+- descriptors of the landscape structure: proportion of semi-natural elements ; agregation ; for each crop patch, the distance from the closest semi-natural patch
+- ecological features of the pest-predator system: infection-rate of pests, foraging-speed and ability to detect crops with pests for predators, external mortality of predators in crops, sensibility to the overwintering effect
 
-A big assumption is the fact that agents do not represent individual NE but populations of NE, that move together
+Outputs are:
 
-*Pest outbreak patterns*
+- dynamics: abundance of predators, number of foraging-movements
+- regulation: proportion of crops with / without pests
+- service: for each patch attacked by pests and visited by predators, we pick the timing of arrivals for pests and NEs on this patch, in order to compute crop loss
 
-We do not explicitly model the dynamics of pests, and use simple assumptions to describe the pattern. The simplest pattern uses an infection-rate = a given proportion of crops free of pests is infected every day, and they are randomly chosen in terms of location
+**Biological assumptions for the model **-
 
-*Life cycle of NEs*
+Our reference to draw the model design and the parametrization was the aphid-ladybird system, which is very classical for studying conservation biological control.
 
-- Reproduction
+<u>*Meta-population of NEs:*</u> 
 
-The dynamics of natural enemies strongly depends on infected crops, because they can only reproduce on them.
+We choose to consider NEs agents as populations of NEs rather than as individual NEs. This choice make us easier to model a large number of arthropods.
 
-- Competition
+Ladybirds are not very gregarious, and rather they have an individual behaviour of foraging. However they are able to detect clues for resources on large distance, and from a macro-perspective, a group of ladybirds can have more or less the same dispersal pattern, that is why we have chosen to model these groups as populations.
 
+Ladybirds are sensible to the landscape scale, and classically empirical studies show that the best predictive scale is around 1km (Elliott et al. 1999, Gardiner et al., 2009, Taki et al., 2013).
 
+<u>*Pest outbreak patterns:*</u>
 
-- Mortality
+We do not explicitly model the dynamics of pests, in terms of densities. Rather, we use an attribute of crops to mimick a SIR model. We did it because we focused more on the presence of pests, and on the timing of arrival on crops, in order to define and compute crop loss.
 
-pas de mortalité dans les snh / taux de mortalité posé dans les crops
+Also, spatial allocation of newly attacked crops is randomized. We do not model specific spatial patterns of pest dispersal, such as the infection by neighbours, or as a density-dependence function. Rather, we suppose that pests arrive from outside the landscape grid, for instance flying on long distances, and fall on the crops.
 
-- Foraging
+<u>*Life cycle of NEs*:</u>
 
-déplacements : vitesse, capacité de dispersion / à l'échelle du paysage, détection des crops
+We suppose landscape complementation, and NEs survival and reproduction depend on 2 non-substituable resources, which are crops with pests for food and overwintering habitats.
 
-- Overwintering
+We suppose that NEs can reproduce only on crops with pests. They are not able to detect crops with pests before a certain amount of time. Also, we suppose that only one NEs population can stay on a crop patch with pests, and if other NEs are attracted by the same patch, they do not stay and rather are searching for another patch.
 
-*Prey - Predator system / Regulation*
+These assumptions are based on the ladybird model. Indeed, ladybirds search for preys with sufficient density and lay eggs only if this condition is satisfied. As the preys are more available in crops than in semi-natural elements during the season, they essentially reproduce in crops. Also, there is a strong interaction of competition between ladybirds, because when food (preys) is scarce, juveniles are subject to cannibalism. As a consequence, adults avoid to lay eggs on the same food spot.
 
-We consider that a NE population can always cure an infected crop, provided that they can stay a sufficient period of time on it.
+We suppose external mortality when NEs are foraging in crops. Contrary to semi-natural habitats, less disturbed, we assume the possibility of NEs agent extinction when foraging in crops, for instance in consequence of a pesticide application.
 
-A crop patch which has been cured cannot be infected again by pests.
+We assume that NEs are able to detect crops with pests, as overwintering habitats, on large distances. Ladybirds are able to detect different clues in their environment, notably chemicals and molecular clues, which allow them to orient themselves. 
 
-*Service*
+We assume that NEs are not able to overwinter in crops. In reality, crops often face some disturbances (pesticides, ploughing...) that are detrimental to NEs, which often need to find specific conditions to overwinter. A lot of ladybird species are supposed to overwinter in semi-natural patches rather than in crops, and to colonize crops when a new season starts.
 
-Biological control service can also be measured as a "crop loss", and it only depends on the date of arrival of the pests on the crop patch, in order to take into account the phenology of the crops, and of the time frame between this date and the date of arrival of the NE
+<u>*Prey - Predator system / Regulation:*</u>
+
+In our model, regulation is always the consequence of NEs arrival on crop with pests. We do not model the dynamics of the densities of pests and of the NEs (in one population, at the individual scale). As soon as NEs have spent around 7 days on a crop with pests, juveniles are born and around three weeks later they become adults and can forage. At this point, we consider than crop patch do no longer experience pests. These durations are parametrized from the ladybird model.
+
+For simplicity, we also suppose that a crop patch can not be attacked twice by pests during a season.
+
+<u>*Service:*</u>
+
+We define biological control service as a percentage of crop loss.
+
+It depends on two outputs:
+
+- timing of pest arrival: considering the phenology of crops, we suppose that the later pest attack crops, the less they experience crop loss
+- timing of NEs arrival: NEs are able to control pest damage, and we compute the coefficient of damage regulation according to the timing of arrival of NEs. The later they arrive after pests, the less they are able to control pest damage.
+
+This mechanism comes from the literature (Costamagna et al., 2015).
 
 **Hypothesis** - 
 
 Our hypothesis are:
 
-- We should find a negative relationship between landscape complexity (proportion of semi-natural patches in the landscape) and the average individual crop loss (for one crop patch). Indeed, increasing the proportion of semi-natural patches, we increase the probability to start 1 year with more NEs (increasing the total carrying capacity during overwintering) and the probability to decrease the initial distance between NEs and crops with pests.
-- Regulation of crops, *id est* the total number of crop patches attacked by pests and then visited by NEs is not directly correlated to the average individual crop loss. Indeed, crop loss is a more complex function which also depends on the timing of arrival of the NEs on infected crops.
+*<u>Hypothesis 1:</u>*
+
+We should find a negative relationship between landscape complexity (proportion of semi-natural patches in the landscape) and the average individual crop loss (for one crop patch). 
+
+Indeed, increasing the proportion of semi-natural patches in the landscape:
+
+- the global carrying capacity of the landscape for overwintering increases, and the total abundance of NEs when a new year starts should increase
+- as the number of NEs should be higher, and the distance for each crop to the closest semi-natural patch should be lesser, NEs should arrive sooner on crops with pests
+
+*<u>Hypothesis 2:</u>*
+
+Regulation of pests by NEs is not always correlated to the delivery of a 'good' biological control service.
+
+Indeed, crop loss depends not only of the regulation (proportion of crops attacked by pests and visited by NEs), but also of the timings of arrival for pests and NEs. The relationship between regulation and crop loss could be modulated by:
+
+-  landscape features
+- ecological features
 
 **Initialization** - 
 
@@ -560,81 +671,24 @@ Crop loss depends on:
 | Service   | folder-path                  | /folder-path                  |   x    | Folder path for output files                                 |                      |
 |           |                              |                               |        |                                                              |                      |
 
-Rajouter les catégories :
+## ODD 2
 
-- Modèle biologique, pour décrire les assumptions tirées du modèle coccinelle aphids
-- Hypthèses
+**<u>Overview</u>**
 
+**Purpose** -
 
+The purpose of the model was to investigate how the spatial arrangement of crops and semi-natural elements in an agricultural landscape can deliver various patterns for the ecosystem service of conservation biological control, emerging from the ecological features of the pest-predator system.
 
-Notes :
+**State variables and scales** -
 
-Est-ce que les attributs qu'on fixe aux NEs sont vraiment des attributs ? En soi tous les NEs prennent les mêmes variables, et on ne joue pas sur l'hétérogénéité de ces valeurs (ce que l'on pourrait faire si on considérait différentes espèces de NEs par exemple)
+We represent an agricultural landscape with a spatial grid, each cell of the grid is a patch and can be either a crop field  or a semi-natural element. Semi-natural elements in agricultural landscapes are woody, herbaceous or flowering elements, which are not cultivated nor intensively managed by farmers. We discretized the spatial domain in 33 * 33 cells of 1ha. The landscape structure can be summarized thanks to several indicators, such as the proportion of semi-natural elements, or their agregation. Time-step is the day, and simulations were run several successive years in order to reach an equilibrium.
 
-Est-ce qu'on kill les pops de NEs d'une année à l'autre (pas possible de survivre plusieurs années) ? Normalement les coccinelles sortent d'overwintering, pondent puis meurent, et ce sont leurs descendants qui font overwintering + colonisation l'année suivante.
-
-Peut-être envisager trois leviers :
-
-- augmentation de la quantité d'habitats
-- fragmentation
-- isolement des habitats (cf. Visser et al. 2009)
-
-avec 3 mesures différentes :
-
-- persistance des prédateurs
-- pic d'abondance / audpc ?
-- régulation
-- crop loss
-
-Distinguer du coup des scénarios de crop loss moyenne / sd(crop loss), les deux indicateurs étant complémentaires pour une gestion au paysage.
-
-Le tout médié via des propriétés émergentes des systèmes proies-prédateurs qui sont échelle-dépendantes mais qui dérivent de processus qui ne sont pas échelle-dépendants : propriétés de dispersion des prédateurs (ability, foraging-frequency), taux de croissance des ravageurs (infection-rate), pattern de dispersion / apparition des ravageurs (random, depuis les snh, depuis les crops = où est-ce que se produit l'overwintering des pests)
+Predators populations are the main entities of the model, represented as individuals taking any location in the landscape grid, *id est* we assume that an individual on a patch is like a population covering the whole area of the patch. We have only explicitely modelled adult predator stage, which is characterized by a dispersal ability. We have not explicitely modelled juvenile predators, nor pests, which are implicitely encapsulated in attributes of patches. As a consequence, individual predators only interact with patches, no other individual entities.
 
 
 
-A vérifier : est-ce que les NEs sont attirés par tous les patchs crops infectés (y compris ceux qui contiennent des NEs) ?
+**Process overview and scheduling** -  
 
-Benoît Collard FARRE
 
-### Concepts à mobiliser
 
-**<u>Meta-population</u>**
-
-Papiers de référence : Levins et al. (1969), Ives et Settle (1997)
-
-Levins et al. (1969) : en l'absence de prédateurs des ravageurs, l'application de mesures de contrôle des ravageurs (ici entendu pesticides) est optimale lorsque ces mesures sont synchrones splutôt qu'asynchrones, car les mesures synchrones permettent de supprimer la possibilité de reguges temporaires pour les ravageurs.	 
-
-Ives et Settle (1997) : en présence de prédateurs des ravageurs, le caractère optimal des mesures synchrones relativement aux mesures asynchrones est moins évident. Leur modèle retrouve l'optimalité des mesures synchrones (ici la synchronicité dans la plantation des cultures, plutôt que dans l'application d'un pesticide) en l'absence de prédateurs. Mais lorsque ceux-ci sont présents, le fait de planter les cultures de manière asynchrone peut être plus efficace, selon les taux de migration des ravageurs et des prédateurs dans les champs.
-
-**<u>Island biogeography theory</u>**
-
-Papier de référence : MacArthur et Wilson (1967), voir Segoli et al. (2012) pour une application
-
-"Des îles plus grandes ont une plus forte diversité spécifique, ce qui sous-entend aussi que les densités de populations devraient être plus importantes dans les habitats les plus grands".
-
-<u>**Resource concentration hypothesis**</u>
-
-Papier de référence : Root et al. (1973)
-
-Elle prédit que les herbivores spécialistes ont plus de chances de trouver et de demeurer sur leurs plantes hôtes dans les grandes monocultures, provoquant l'augmentation des densités de quelques espèces de ravageurs seulement, ce qui réduit la persistence des prédateurs généralistes.
-
-**<u>Spatial heterogeneity hypothesis</u>**
-
-Papiers de référence : Huffaker (1958), Beddington et al. (1978), Kareiva et al. (1987), Hassell et al. (1993)
-
-L'importance de l'hétérogénéité spatiale (**<u>synonyme souvent de fragmentation</u>**) sur les interactions hôte-parasitoïde est connue depuis l'expérience fondatrice de Huffaker (1958).
-
-L'hétérogénéité spatiale a été classiquement vue comme stabilisatrice du comportement oscillatoire des dynamiques hôte-parasitoïdes, augmentant donc la persistance de ces interactions. Elle a donc été perçus comme favorable au contrôle biologique, et comme un mécanisme autorisant la suppression forte des ravageurs (Beddington et al., 1978).
-
-Néanmoins, d'autres travaux empiriques (Kareiva et al., 1987) comme de modélisation (Hassell et al., 1993) ont remis en question ce rôle favorable de la fragmentation comme stabilisateur des interactions, pour plutôt souligner le fait que la fragmentation peut aussi causer des explosions de ravageurs prolongées dans le temps, et favoriser l'extinction des parasitoïdes.
-
-Ce rôle négatif de la fragmentation sur les interactions hôtes-parasitoïdes ou proie-prédateurs pourrait trouver son origine dans deux causes distinctes :
-
-- une capacité de dispersion limitée des parasitoïdes (Tscharntke et al., 2005)
-- un comportement spécifique de recherche des proies par leurs prédateurs selon les caractéristiques du paysage (With et al., 2002)
-
-<u>**Landscape complementation**</u>
-
-Papiers de référence : Dunning et al. (1992)
-
-Les individus se déplacent dans le paysage, entre patches, afin de trouver des ressources non-substituables entre elles.
+We have built different scenarios, according to the ecological features of the pest-predator system. During the growing season, crops are attacked by pests, according to a certain intensity and spatial pattern. After being attacked, crops can become attractive for predators, which move to them and reproduce as soon as a certain amount of time is spent. Once they have reproduced, they are still foraging into the landscape to find crops with pests, until the end of the season, when it is time to find semi-natural elements where they would be able to overwinter during the rest of the year. Crops with pests experience a crop loss, which depends on the timing of arrival of both pests, and of predators after pests. We characterized distinct scenarios with different pest patterns (intensity and spatial pattern), different foraging abilities and  different mortality rates both in crops and semi-natural elements for predators. We have implemented these scenarios while varying the landscape structure, in order to understand how they interplay to produce distinct patterns of crop loss at the landscape scale.
