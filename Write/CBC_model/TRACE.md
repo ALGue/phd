@@ -739,9 +739,17 @@ We measure the dynamic of predators (abundance) over time, as the dynamic of pes
 
 **<u>2.3. Details</u>**
 
+While varying the landscape complexity (the proportion of semi-natural patches), we implement a variety of scenarios, relative to (i) the ecology of pests (intensity and spatial spreading pattern) (ii) the ecology of predators (ability to forage, mortality in crops and during overwintering), and (iii) the shape of the relationships between the timing of arrival of pests and the crop loss they produce. Other parameters are set, with the same values for every model iteration. We stopped the simulations when the dynamics of the pest-predator system entered a phase of permanent regime. Because the model contained elements of stochasticity, we ran 10 simulations for each scenario. We obtained the outputs we described in Observation section of the Design Concepts. For running the scenarios, we used NetLogo 6.0.2, and for elaborating the results we used R 3.4.4.
 
+*Initialization*:  We aimed to study the emerging dynamic of predators and the delivery of the biological control service in an agricultural landscape. Thus, we initialized each model iteration with a landscape, characterized by its structure, especially the proportion of semi-natural patches, and an initial number of individual predators which are overwintering in these patches.
 
-2.3.1. Scenarios ?
+2.3.1. Scenarios 
+
+2.3.1.1. Pest ecology
+
+2.3.1.2. Predator ecology
+
+2.3.1.3. Shape of the relationship between timing of pest arrival and crop loss
 
 2.3.2. Submodels
 
@@ -774,3 +782,25 @@ During the overwintering season, we compute the total number of individual preda
 2.3.2.7. Procedure *CropLoss*
 
 At the end of the year, just before starting a new one, we compute the crop loss for each crop patch. Crop loss depends on two values: the timings of arrival (i) of pests, and (ii) of predators. The pest arrival date allows us to take into account the effect of the crop phenology. Indeed, we consider that the later the pests arrive, the lesser the crop loss should be. According to the scenario, various relationships between the pest arrival date and the crop loss can be implemented. This represents the theoretical maximum of crop loss, in the absence of regulation. If regulation occurs, predators regulate pests, and finally the crop loss of the patch, in a certain extent. We compute the duration between the arrivals of pests and predators. The longer the duration, the lesser the coefficient of regulation. We then apply this  coefficient of regulation to the theoretical maximum of crop loss, in order to get the value of crop loss for the crop patch.
+
+**<u>2.4. Hypothesis</u>**
+
+Our hypotheses are:
+
+<u>Hypothesis 1:</u>
+
+We should find a negative relationship between landscape complexity (proportion of semi-natural patches in the landscape) and the average individual crop loss (for one crop patch).  
+
+Indeed, increasing the proportion of semi-natural patches in the landscape:
+
+- the global carrying capacity of the landscape for overwintering increases, and the total abundance of predators when a new year starts should increase
+- as the number of predators should be higher, and the distance for each crop to the closest semi-natural patch should be lesser, predators should arrive sooner on crops with pests
+
+<u>Hypothesis 2:</u>
+
+Regulation of pests by NEs is not always correlated to the delivery of a 'good' biological control service.
+
+Indeed, crop loss depends not only of the regulation (proportion of crops attacked by pests and visited by predators), but also of the timings of arrival for pests and predators. The relationship between regulation and crop loss could be modulated by:
+
+- landscape features
+- ecological features
